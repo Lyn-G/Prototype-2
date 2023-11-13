@@ -244,11 +244,14 @@ function update() {
 }
 
 function updateTriangle(object) {
+  color("purple");
   line(20 + object.pos.x, 0, 65 + object.pos.x, 50);
   line(65 + object.pos.x, 50, 110 + object.pos.x, 0);
 
   object.pos.x -= speed;
-  if (object.pos.x < -80) {
+  if (object.pos.x < -110) {
     object.pos.wrap(0, G.WIDTH + 80, 0, G.HEIGHT + 80);
   }
+
+  if (char("c", player.pos).isColliding.rect.purple) end();
 }
