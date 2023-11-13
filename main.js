@@ -1,5 +1,7 @@
 title = "Arrow";
 
+let Highscores = []
+
 description = `
 Collect Speed Boosts
 `;
@@ -210,7 +212,7 @@ function update() {
       });
     }
     // Reset the firing cooldown
-    player.firingCooldown = 1;
+    player.firingCooldown = 2;
   }
 
   // Updating and drawing bullets
@@ -247,7 +249,7 @@ function update() {
   char("d", speedBoost.pos);
 
   deathTimer -= speed;
-  if (deathTimer <= 0) end();
+  if (deathTimer <= 0) end(getHighscoreText());
 }
 
 function updateTriangle(object) {
@@ -267,5 +269,16 @@ function updateTriangle(object) {
     else ypointbottom = G.HEIGHT;
   }
 
-  if (char("c", player.pos).isColliding.rect.purple) end();
+  if (char("c", player.pos).isColliding.rect.purple) end(getHighscoreText());
+}
+
+function getHighscoreText(){
+  if (score > 0 && Highscores.indexOf(score) == -1 ){
+    Highscores.push(Math.floor(score))
+    Highscores.sort()
+    Highscores.reverse()
+  }
+  console.log(Highscores.join())
+
+  return `Highscores:\n${Highscores}`
 }
