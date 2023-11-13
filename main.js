@@ -118,6 +118,12 @@ let boostCollected = false;
 let deathTimer = 2000;
 let fTriangle;
 
+//globals
+let ypointtip = 50;
+let ypointbottom = 0;
+
+
+
 function update() {
   if (!ticks) {
     deathTimer = 2000;
@@ -149,6 +155,7 @@ function update() {
       pos: vec(G.WIDTH - 5, rnd(0, G.HEIGHT)),
       speed: speed,
     });
+
   }
   fTriangle.forEach((t) => {
     updateTriangle(t);
@@ -245,12 +252,19 @@ function update() {
 
 function updateTriangle(object) {
   color("purple");
-  line(20 + object.pos.x, 0, 65 + object.pos.x, 50);
-  line(65 + object.pos.x, 50, 110 + object.pos.x, 0);
+  line(20 + object.pos.x, ypointbottom, 65 + object.pos.x, ypointtip);
+  line(65 + object.pos.x, ypointtip, 110 + object.pos.x, ypointbottom);
 
   object.pos.x -= speed;
   if (object.pos.x < -110) {
     object.pos.wrap(0, G.WIDTH + 80, 0, G.HEIGHT + 80);
+
+    //if it wraps, change coordinates
+    ypointtip = rnd(10, G.HEIGHT-10); //randomizes top of triangle
+
+    let coin = rnd(0,2);            //50/50 chance to spawn triangle at top/bottom
+    if (coin == 0) ypointbottom = 0;
+    else ypointbottom = G.HEIGHT;
   }
 
   if (char("c", player.pos).isColliding.rect.purple) end();
